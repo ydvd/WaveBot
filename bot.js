@@ -18,14 +18,14 @@ client.on('ready', () => {
 /** Updates on messages in text channels */
 client.on('message', msg => {
     // Only reply when called
-    if(msg.content.substr(0, 1) != '!') {
+    if(msg.content.substr(0, 4) != '!wb ') {
         console.log("Irrelevant message, ignore");
         return;
     }
     else {
 
         console.log('Being called! Replying');
-        let message = msg.content.substr(1);
+        let message = msg.content.substr(4);
 
         if (message == 'beep') {
             msg.channel.send('boop!');
@@ -35,7 +35,7 @@ client.on('message', msg => {
             msg.channel.send('Ego meter currently at: 100%');
         }
     
-        if(message == 'git') {
+        if(message == 'repo') {
             msg.channel.send('Check out the repository here: http://github.com/ydvd/WaveBot')
         }
     
