@@ -1,17 +1,21 @@
 const discord = require('discord.js');
-const client = new discord.Client();
+const bot = new discord.Client();
+var fs = require('fs');
+// const auth = require('auth.json');
 
-client.on('ready', () => {
-    console.log('Logged in as ${client.user.tag}!');
+bot.on('ready', () => {
+    console.log('Logged in as ' + bot.user.tag);
 });
 
-client.on('message', msg => {
+bot.on('message', msg => {
     if (msg.content === 'beep') {
         msg.channel.send('boop!');
     }
 });
 
-client.login('NjY5MTE2NTAxMzk1MjQzMDEw.Xq2ORw.8nBvSns2AzLvzCnpsWfkQUp6LlY');
+
+
+bot.login(JSON.parse(fs.readFileSync('auth.json')).token);
 
 /*
 //Create Client instance with bot token
