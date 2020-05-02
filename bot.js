@@ -24,7 +24,6 @@ client.on('message', msg => {
     }
     else {
 
-
         console.log('Being called! Replying');
         let message = msg.content.substr(1);
 
@@ -36,7 +35,9 @@ client.on('message', msg => {
             msg.channel.send('Ego meter currently at: 100%');
         }
     
-    
+        if(message == 'git') {
+            msg.channel.send('Check out the repository here: http://github.com/ydvd/WaveBot')
+        }
     
     }
 });
