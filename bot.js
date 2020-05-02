@@ -30,9 +30,6 @@ client.on('message', msg => {
 
         if (message == 'beep') {
             msg.channel.send('boop!');
-            client.channels.fetch(CH_TEXT_BOT_ID)
-                .then(channel => channel.send("beep boop"));
-            // client.channels.z
         }
     
         if(message == 'ego') {
