@@ -16,7 +16,7 @@ const channel_ids = {
     },
     abyss_tavern : {
         text : {
-            guild_chat : '',
+            guild_chat : '689166130656706744',
             officer_general : '699695930441597068'
         },
         voice : {
@@ -28,17 +28,17 @@ const channel_ids = {
 
 var activeTextListeners = [
     channel_ids.wavetest.text.general,
-    channel_ids.wavetest.text.bot /*  ,
-    channel_ids.abyss_tavern.text.officer_general */
+    channel_ids.wavetest.text.bot,
+    channel_ids.abyss_tavern.text.officer_general
 ];
 var activeTextOutputs = [
     channel_ids.wavetest.text.bot /* ,
     channel_ids.abyss_tavern.text.officer_general */
 ];
 var activeVoiceListeners = [
-    channel_ids.wavetest.voice.raid /* ,
+    channel_ids.wavetest.voice.raid,
     channel_ids.abyss_tavern.voice.social_raid,
-    channel_ids.abyss_tabern.voice.raid */
+    channel_ids.abyss_tavern.voice.raid
 ];
 
 client.login(JSON.parse(fs.readFileSync('auth.json')).token);
@@ -77,35 +77,35 @@ client.on('message', msg => {
     if(message == 'repo') {
         msg.reply('Check out the repository here: http://github.com/ydvd/WaveBot')
     }
-    
-    
 });
 
 /** Updates on joining/leaving voice channels */
 client.on('voiceStateUpdate', (oldMember, newMember) => {
-    let newUserChannel = newMember.voiceChannel;
-    let oldUserChannel = oldMember.voiceChannel;
 
-    if(oldUserChannel === undefined && newUserChannel !== undefined) {
+    console.log('Someone changed channel status! Channel ID: ' + oldMember.channelID + ' | ' + newMember.channelID);
 
-        // User Joins a voice channel
-        console.log('Someone joins a voice channel!');
-   
-    } else if(newUserChannel === undefined) {
-        // User leaves a voice channel
-            
-        
-        console.log('Someone leaves a voice channel!');
-   
-        if(oldMember.channel != null)
-        if(activeVoiceListeners.includes(oldMember.channel.id)) {
+    if (oldMember.channelID == null && newUserChannel != null) {
+        // User joins channel
+    }
+    else if (oldMember.channelID != null && newMember.channelID == null) {
+        // User leaves channel
+        if(activeVoiceListeners.includes(oldMember.channelID)) {
             client.channels.fetch(channel_ids.wavetest.text.bot)
                 .then(ch => ch.send(
-                    new Date(Date.now()).toLocaleString() +
-                    ' : ' +
-                    oldMember.member.displayName + 
-                    ' left voice channel ' + 
-                    oldMember.channel.name));
+                    new Date(Date.now()).toLocaleString() + ' : **' +
+                    oldMember.member.displayName + '** left **' + oldMember.channel.name + '**'));
         }
-     }
+    }
+    else {
+        // Something else (mute/deafen/etc change)
+        if (oldMember.channelID != newMember.channelID) { // Changed channel
+            if(activeVoiceListeners.includes(oldMember.channelID)) {
+                client.channels.fetch(channel_ids.wavetest.text.bot)
+                    .then(ch => ch.send(
+                        new Date(Date.now()).toLocaleString() + ' : **' + 
+                        oldMember.member.displayName + '** moved from **' + oldMember.channel.name + 
+                        '** to **' + newMember.channel.name + '**'));
+            }
+        }
+    }
 });
