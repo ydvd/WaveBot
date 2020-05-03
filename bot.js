@@ -84,7 +84,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 
     console.log('Someone changed channel status! Channel ID: ' + oldMember.channelID + ' | ' + newMember.channelID);
 
-    if (oldMember.channelID == null && newUserChannel != null) {
+    if (oldMember.channelID == null && oldMember.channelID != null) {
         // User joins channel
     }
     else if (oldMember.channelID != null && newMember.channelID == null) {
