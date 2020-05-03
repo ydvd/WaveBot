@@ -28,13 +28,17 @@ const channel_ids = {
 
 var activeTextListeners = [
     channel_ids.wavetest.text.general,
-    channel_ids.wavetest.text.bot
+    channel_ids.wavetest.text.bot /*  ,
+    channel_ids.abyss_tavern.text.officer_general */
 ];
 var activeTextOutputs = [
-    channel_ids.wavetest.text.bot
+    channel_ids.wavetest.text.bot /* ,
+    channel_ids.abyss_tavern.text.officer_general */
 ];
 var activeVoiceListeners = [
-    channel_ids.wavetest.voice.raid
+    channel_ids.wavetest.voice.raid /* ,
+    channel_ids.abyss_tavern.voice.social_raid,
+    channel_ids.abyss_tabern.voice.raid */
 ];
 
 client.login(JSON.parse(fs.readFileSync('auth.json')).token);
@@ -60,7 +64,10 @@ client.on('message', msg => {
     let message = msg.content.substr(4);
 
     if (message == 'beep') {
-        msg.channel.send('boop!');
+        msg.channel.send('boop');
+    }
+    if (message == 'beep!') {
+        msg.reply('boop!');
     }
 
     if(message == 'ego') {
@@ -68,7 +75,7 @@ client.on('message', msg => {
     }
 
     if(message == 'repo') {
-        msg.channel.send('Check out the repository here: http://github.com/ydvd/WaveBot')
+        msg.reply('Check out the repository here: http://github.com/ydvd/WaveBot')
     }
     
     
@@ -84,12 +91,13 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
         // User Joins a voice channel
         console.log('Someone joins a voice channel!');
    
-     } else if(newUserChannel === undefined) {
-            
-        console.log('Someone leaves a voice channel!');
+    } else if(newUserChannel === undefined) {
         // User leaves a voice channel
+            
+        
+        console.log('Someone leaves a voice channel!');
    
-        if(oldMember.channel)
+        if(oldMember.channel != null)
         if(activeVoiceListeners.includes(oldMember.channel.id)) {
             client.channels.fetch(channel_ids.wavetest.text.bot)
                 .then(ch => ch.send(
@@ -100,7 +108,4 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
                     oldMember.channel.name));
         }
      }
-
 });
-
-
