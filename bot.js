@@ -79,12 +79,15 @@ client.on('message', msg => {
     }
 
     if (message == 'hello there' || message == 'Hello there!' ) {
+        let name;
+        msg.member.nickname != null ? 
+            name = msg.member.nickname : 
+            name = msg.member.user.username; 
 
-        let lastChar = msg.member.nickname.substr(msg.member.nickname.length - 1);
+        let lastChar = name.substr(name.length - 1);
         isVowel(lastChar) ? suffix = 'nobi!' : suffix = 'obi!';
 
-        msg.channel.send('General ' + msg.member.nickname + suffix);
-        console.log(msg.member); 
+        msg.channel.send('General ' + name + suffix); 
     }
 
 });
