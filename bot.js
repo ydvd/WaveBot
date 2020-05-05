@@ -77,6 +77,16 @@ client.on('message', msg => {
     if(message == 'repo') {
         msg.reply('Check out the repository here: http://github.com/ydvd/WaveBot')
     }
+
+    if (message == 'hello there' || message == 'Hello there!' ) {
+
+        let lastChar = msg.member.nickname.substr(msg.member.nickname.length - 1);
+        isVowel(lastChar) ? suffix = 'nobi!' : suffix = 'obi!';
+
+        msg.channel.send('General ' + msg.member.nickname + suffix);
+        console.log(msg.member); 
+    }
+
 });
 
 /** Updates on joining/leaving voice channels */
@@ -109,3 +119,16 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
         }
     }
 });
+
+function isVowel(c) {
+    c = c.charCodeAt(c);
+    var magicNumber = 2198524575;
+    c = (c > 96) ? (c-32) : c;
+    if( c < 65 || c == 75 || c > 90) 
+        return false;
+    var div = magicNumber / c;
+    var diff = div - Math.floor(div);
+    if( diff == 0 )
+        return true;
+    return false;
+}
